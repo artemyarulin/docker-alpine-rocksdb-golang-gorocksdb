@@ -4,14 +4,14 @@ Example how to build Docker Alpine image with RocksDB, Golang and gorocksdb. Jus
 
 ## Improvements
 
-Much easier way could be completely rely on Alpine `rocksdb` package but I wasn't able to compile `gorocksdb` with that. I've used following Dockerfile. Will be happy if someone can help
+Much easier way could be completely rely on Alpine `rocksdb` package directly but I wasn't able to compile `gorocksdb` with that. I've used following Dockerfile. Will be happy if someone can help
 
 ```Dockerfile
 FROM golang:1.13.3-alpine
 WORKDIR /app
 RUN apk add rocksdb-dev --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/
 COPY ./go.* ./
-RUN go mod download && go mod verify
+RUN go mod download && go mod verify # What to set in CGO_CFLAGS and CGO_LDFLAGS ???
 COPY ./*.go ./
 RUN go test -v && go build -o /app
 ENTRYPOINT ["/app"]
